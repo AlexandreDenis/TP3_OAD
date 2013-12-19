@@ -116,7 +116,7 @@ void Solution::init_distance()
  */ 
 void Solution::affiche()
 {
-	cout<<liste_clients.size()<<endl;
+	//~ cout<<liste_clients.size()<<endl;
 		
 	for(vector<Client>::iterator it = liste_clients.begin(); it != liste_clients.end(); ++it)
 		it->affiche();
@@ -156,6 +156,7 @@ void Solution::cst_savings()
 	SGain				gain_tmp;
 	int 				id_cour;
 	int 				tournee_cour 	= 0;
+	vector<int>    liste_tournee_sup;
 	
 	init_tournees();
 	
@@ -205,8 +206,16 @@ void Solution::cst_savings()
         5. Repeat 4 until the savings list is handled or the capacities don't allow more merging.
                 The cycles if i and j are NOT united in sep 4, if the nodes belong to the same cycle OR the
                 capacity is exceeded OR either node is an interior node of the cycle.
-        */
-         for(vector<Client>::iterator it1 = liste_clients.begin()+1 ; it1 != liste_clients.end() ; ++it1)
+        */	
+        
+	int u = 0;
+	int max = liste_clients.size();
+	while(u < max)
+	{
+        liste_tournee_sup.clear();
+		arcs_clients.clear();
+		
+        for(vector<Client>::iterator it1 = liste_clients.begin()+1 ; it1 != liste_clients.end() ; ++it1)
          {
                  for(vector<Client>::iterator it2 = liste_clients.begin()+1 ; it2 != liste_clients.end() ; ++it2)
                  {
@@ -224,16 +233,18 @@ void Solution::cst_savings()
                                         gain_tmp.i					= 	it1->getId();
                                         gain_tmp.j					= 	it2->getId();
                                         gain_tmp.gain				=	gain;
-                                        gain_tmp.alea				=	rand();
 
                                         arcs_clients.push_back(gain_tmp);
                                 }
                          }
                  }
          }
-         sort(arcs_clients.begin(),arcs_clients.end(),Gain_fonc());         
+         sort(arcs_clients.begin(),arcs_clients.end(),Gain_fonc());
+         
+         /*for(vector<SGain>::iterator it = arcs_clients.begin(); it != arcs_clients.end(); ++it)
+			cout << it->gain << endl;      */    
 
-         vector<int>    liste_tournee_sup;
+
 
          //Parcours des arcs dans l'ordre decroissant du gain
          for(vector<SGain>::iterator it = arcs_clients.begin(); it != arcs_clients.end(); ++it)
@@ -247,11 +258,12 @@ void Solution::cst_savings()
                                  //si i est dernier et j est premier
                                  if(suiv_tournee[it->i] == 0 && prec_tournee[it->j] == 0)
                                  {
-                                         //si le fusion respecte les fenetres de temps
+                                         //si la fusion respecte les fenetres de temps
                                          if(test_TW(num_tournee[it->i], it->j))
                                          {
                                              liste_tournee_sup.push_back(num_tournee[it->j]);
                                              update(it->i,it->j,it->gain);
+                                             break;
                                          }
                                  }
                          }
@@ -273,6 +285,8 @@ void Solution::cst_savings()
                  num_tournee[clt] = i;
              }
          }
+         ++u;
+	 }
 }
 
 
@@ -434,7 +448,7 @@ vector<int>& Solution::get_suiv_tournee()
  * 		- copyClient : vecteur de clients dans un ordre bien précis pour
  * 		la réalisation de l'heuristique d'insertion
  */
-void Solution::cst_insertion(vector<Client> copyClient)
+void Solution::cst_insertion(vector<Client> copyClient, bool alea)
 {
 	vector<Client>::iterator                it;
 	vector<Client>::iterator                it_erase;
@@ -445,7 +459,7 @@ void Solution::cst_insertion(vector<Client> copyClient)
 	bool									bestCltTrouve           = 	false;
 	bool 									tourneeVide		=	true;
 	unsigned int 							i;
-	int 									nb_clts = Client::getNbClients();
+	//int 									nb_clts = Client::getNbClients();
 
 	for(i = 0; i < copyClient.size(); ++i)
 	{
@@ -459,7 +473,7 @@ void Solution::cst_insertion(vector<Client> copyClient)
 	//initialise les tournees
 	init_tournees();
 
-	while((unsigned int)index < nb_clts && !copyClient.empty())
+	while((unsigned int)index < liste_clients.size() && !copyClient.empty())
 	{
 		if(!bestCltTrouve)
 		{
@@ -495,14 +509,14 @@ void Solution::cst_insertion(vector<Client> copyClient)
 									- dist[0][dernier_client[index]];
 					}
 
-					//if(	gain_cour < gain_tmp )
+					if(	gain_cour < gain_tmp )
 					{
-							it_erase    =       it;
-							bestClt		=	it->getId();
-							gain_tmp	=	gain_cour;	
+						it_erase    =       it;
+						bestClt		=	it->getId();
+						gain_tmp	=	gain_cour;	
 					}
-					
-					break;
+					if(alea)
+						break;
 				}
 			}
 		}
@@ -595,6 +609,8 @@ void Solution::deux_opt_etoile()
 {
     int         deb_arc1        =        0;
     int         deb_arc2        =        0;
+    int         fin_arc1        =        0;
+    int         fin_arc2        =        0;
     double         gain;
     bool         fin =        false;
     
@@ -604,37 +620,47 @@ void Solution::deux_opt_etoile()
         //pour chaque tournee
         for(int tournee_1 = 0 ; tournee_1 < nb_tournee && fin; ++tournee_1)
         {
-            deb_arc1 = premier_client[tournee_1];
+			deb_arc1 						=  	0;
+            fin_arc1 						= 	premier_client[tournee_1];
             
-            cout<<"**********************************"<<endl;
             //pour chaque arc de la tournee
-            while(deb_arc1 != 0 && fin)
+            while((deb_arc1 || fin_arc1) && fin)
             {                        
                 //pour chaque tournee
-                for(int tournee_2 = 0 ; tournee_2 < nb_tournee && fin; ++tournee_2)
+                for(int tournee_2 = tournee_1 + 1 ; tournee_2 < nb_tournee && fin; ++tournee_2)
                 {
-                    deb_arc2                =        premier_client[tournee_2];
+					deb_arc2				=	0;
+                    fin_arc2                =   premier_client[tournee_2];
                                                 
                     //pour chaque arc de la tournee
-                    while(deb_arc2 != 0 && fin)
+                    while((deb_arc2 || fin_arc2) && fin)
                     {
                         //on ne teste pas les cas inutiles
-                        if( !( (deb_arc1 == 0 && deb_arc2==0) ||
-                            (suiv_tournee[deb_arc1]==0 && suiv_tournee[deb_arc2]==0) ))
+                        if( !( (deb_arc1 == 0 && deb_arc2==0)
+                            ||	(fin_arc1==0 && fin_arc2==0)
+                            ||	(deb_arc1==0 && deb_arc2==0)
+                             ))
                         {
                             gain =        verif2opt(deb_arc1,suiv_tournee[deb_arc2],deb_arc2,suiv_tournee[deb_arc1]);
                             if(gain < -0.1)
                             {
+								if( (deb_arc1==0 && fin_arc2==0) || (deb_arc2==0 && fin_arc1==0) )
+								{
+									//~ cout << "fusion" << endl;
+								}
                                 update2opt(deb_arc1,suiv_tournee[deb_arc2],deb_arc2,suiv_tournee[deb_arc1]);
                                 distance_totale                        +=        gain;
                                 fin = false;
                             }
                         }
-                        deb_arc2 =        suiv_tournee[deb_arc2];
+                        deb_arc2 =        fin_arc2;
+                        if(fin_arc2)
+							fin_arc2		=	suiv_tournee[fin_arc2];
                     }
                 }
-                deb_arc1 =        suiv_tournee[deb_arc1];
-                cout << "deb_arc = " << deb_arc1 << endl;
+                deb_arc1 =        fin_arc1;
+                if(fin_arc1)
+					fin_arc1		=	suiv_tournee[fin_arc1];
             }
         }
     }
@@ -672,7 +698,7 @@ double Solution::verif2opt(int i,int j,int k,int l)
 			charge0i		=	charge_partielle[i];
 			charge0k		= 	charge_partielle[k];
 			chargel0		=	charge_tournee[num_tournee[i]] - charge_partielle[i];
-                        chargej0		= 	charge_tournee[num_tournee[k]] - charge_partielle[k];
+            chargej0		= 	charge_tournee[num_tournee[k]] - charge_partielle[k];
 			
 			//verification de la capacite
             if(((charge0i + chargej0) < capacite) && ((charge0k + chargel0) < capacite))
@@ -842,39 +868,39 @@ void Solution::update_date_shift(int tournee)
  */ 
 void Solution::multistart(int nb_max)
 {
-	vector<Client>					copyClient = liste_clients;
-	vector<Client>					oldClt;
-	double							oldDist = numeric_limits<double>::max();
-	double							newDist;
-	
-	for(int i = 0; i < nb_max; ++i)
-	{		
-		//generation d'une sequence de clients aleatoires
-		random_shuffle(copyClient.begin(), copyClient.end());
+	 vector<Client>                                        	copyClient = liste_clients;
+        vector<Client>                                     	oldClt;
+        double                                              oldDist = numeric_limits<double>::max();
+        double                                              newDist;
+        
+        for(int i = 0; i < nb_max; ++i)
+        {                
+			//generation d'une sequence de clients aleatoires
+			random_shuffle(copyClient.begin(), copyClient.end());
 
-		//on applique l'heurisique d'insertion en utilisant cet ordre
-		cst_insertion(copyClient);
+			//on applique l'heurisique d'insertion en utilisant cet ordre
+			cst_insertion(copyClient,true);
 
-		//recherche_locale
-		deux_opt_etoile();
-		shift();
+			//recherche_locale
+			deux_opt_etoile();
+			shift();
 
-		//on recupere la nouvelle distance totale
-		newDist 					= distance_totale;
+			//on recupere la nouvelle distance totale
+			newDist                                         = distance_totale;
 
-		//la nouvelle solution est plus performente que l'actuelle
-		if(newDist < oldDist)
-		{
-			oldDist					=	newDist;
-			oldClt.clear();
-			oldClt					=	copyClient;
-		}
-	}
+			//la nouvelle solution est plus performente que l'actuelle
+			if(newDist < oldDist)
+			{
+					oldDist                                        =        newDist;
+					oldClt.clear();
+					oldClt                                        =        copyClient;
+			}
+        }
 
-	/*on met en place la meilleures solution trouvee*/
-	cst_insertion(oldClt);
-	deux_opt_etoile();
-	shift();
+        /*on met en place la meilleures solution trouvee*/
+        cst_insertion(oldClt,true);
+        deux_opt_etoile();
+        shift();
 }
 
 //Destructeur

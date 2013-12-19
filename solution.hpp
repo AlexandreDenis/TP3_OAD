@@ -73,7 +73,7 @@ class Solution
 		//creer les tournees selon une heuristique de savings
 		void				cst_savings();		
 		//creer les tournees selon une heuristique d'insertion
-		void				cst_insertion(vector<Client>);	
+		void				cst_insertion(vector<Client>, bool);	
 		//recupere la distance totale de la solution
 		double				getDistTot();
 		//ameliore la solution avec l'algorithme du 2-opt*
@@ -101,13 +101,12 @@ public :
         int					i;
         int					j;
         double 				gain;
-        int					alea;
 };
 
 class Gain_fonc
 {
 	public:
-		bool operator()(const SGain & s1,const SGain & s2) { return (s1.gain + s1.alea > s2.gain + s2.alea); }
+		bool operator()(const SGain & s1,const SGain & s2) { return (s1.gain > s2.gain); }
 };
 
 #endif

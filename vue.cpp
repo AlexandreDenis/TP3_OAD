@@ -156,7 +156,7 @@ void Vue::ins()
 {
     if(afficher)
     {
-        s->cst_insertion(s->get_client());
+        s->cst_insertion(s->get_client(),false);
         afficherLigne();
         insert = true;
     }
