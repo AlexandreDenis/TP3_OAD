@@ -593,10 +593,10 @@ double Solution::getDistTot()
  */
 void Solution::deux_opt_etoile()
 {
-    int 	deb_arc1	=	0;
-    int 	deb_arc2	=	0;
-    double 	gain;
-    bool 	fin             =	false;
+    int         deb_arc1        =        0;
+    int         deb_arc2        =        0;
+    double         gain;
+    bool         fin =        false;
     
     while(!fin )
     {
@@ -609,12 +609,12 @@ void Solution::deux_opt_etoile()
             cout<<"**********************************"<<endl;
             //pour chaque arc de la tournee
             while(deb_arc1 != 0 && fin)
-            {			
+            {                        
                 //pour chaque tournee
                 for(int tournee_2 = 0 ; tournee_2 < nb_tournee && fin; ++tournee_2)
                 {
-                    deb_arc2		=	premier_client[tournee_2];
-						
+                    deb_arc2                =        premier_client[tournee_2];
+                                                
                     //pour chaque arc de la tournee
                     while(deb_arc2 != 0 && fin)
                     {
@@ -622,18 +622,18 @@ void Solution::deux_opt_etoile()
                         if( !( (deb_arc1 == 0 && deb_arc2==0) ||
                             (suiv_tournee[deb_arc1]==0 && suiv_tournee[deb_arc2]==0) ))
                         {
-                            gain                        =	verif2opt(deb_arc1,suiv_tournee[deb_arc2],deb_arc2,suiv_tournee[deb_arc1]);
-                            if(gain < 0)
+                            gain =        verif2opt(deb_arc1,suiv_tournee[deb_arc2],deb_arc2,suiv_tournee[deb_arc1]);
+                            if(gain < -0.1)
                             {
                                 update2opt(deb_arc1,suiv_tournee[deb_arc2],deb_arc2,suiv_tournee[deb_arc1]);
-                                distance_totale			+=	gain;
-                                fin                     =       false;
+                                distance_totale                        +=        gain;
+                                fin = false;
                             }
                         }
-                        deb_arc2                        =	suiv_tournee[deb_arc2];
-                    }                    
+                        deb_arc2 =        suiv_tournee[deb_arc2];
+                    }
                 }
-                deb_arc1                                =	suiv_tournee[deb_arc1];
+                deb_arc1 =        suiv_tournee[deb_arc1];
                 cout << "deb_arc = " << deb_arc1 << endl;
             }
         }
@@ -663,7 +663,7 @@ double Solution::verif2opt(int i,int j,int k,int l)
         int			chargel0;
 	
 	//memes tournees
-        if(num_tournee[i] != num_tournee[k])
+     if(num_tournee[i] != num_tournee[k])
 	{
 		//verification du respect des fenetres de temps
 		if(test_TW(i,j) && test_TW(k,l))
@@ -675,7 +675,7 @@ double Solution::verif2opt(int i,int j,int k,int l)
                         chargej0		= 	charge_tournee[num_tournee[k]] - charge_partielle[k];
 			
 			//verification de la capacite
-                        if(((charge0i + chargej0) < capacite) && ((charge0k + chargel0) < capacite))
+            if(((charge0i + chargej0) < capacite) && ((charge0k + chargel0) < capacite))
 			{
 				//calcul du gain
 				gain		=	dist[i][j] + dist[k][l] - dist[i][l] - dist[k][j];
@@ -757,7 +757,7 @@ void Solution::update2opt(int i, int j, int k, int l)
 */
 void Solution::shift()
 {
-    double  gain_max    =   0;
+    double  gain_max    =   -0.1;
     double  gain_cour   =   0;
     int     pos_max1    =   0;
     int     pos_max2    =   0;
@@ -793,7 +793,7 @@ void Solution::shift()
                         }
                     }
                 }
-                if(gain_max < 0)
+                if(gain_max < -0.1)
                 {
                     int tmp1 = suiv_tournee[pos_max1];
                     int tmp2 = prec_tournee[pos_max1];
@@ -809,7 +809,7 @@ void Solution::shift()
                     suiv_tournee[pos_max2]                      =   pos_max1;
 
                     distance_totale                             +=  gain_max;
-                    gain_max                                    =   0;
+                    gain_max                                    =   -0.1;
                     fin                                         =   false;
 
                     update_date_shift(i);
@@ -857,6 +857,7 @@ void Solution::multistart(int nb_max)
 
 		//recherche_locale
 		deux_opt_etoile();
+		shift();
 
 		//on recupere la nouvelle distance totale
 		newDist 					= distance_totale;
@@ -873,6 +874,7 @@ void Solution::multistart(int nb_max)
 	/*on met en place la meilleures solution trouvee*/
 	cst_insertion(oldClt);
 	deux_opt_etoile();
+	shift();
 }
 
 //Destructeur
