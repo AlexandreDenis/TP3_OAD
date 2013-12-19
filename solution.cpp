@@ -638,15 +638,16 @@ void Solution::deux_opt_etoile()
                         //on ne teste pas les cas inutiles
                         if( !( (deb_arc1 == 0 && deb_arc2==0)
                             ||	(fin_arc1==0 && fin_arc2==0)
-                            ||	(deb_arc1==0 && deb_arc2==0)
                              ))
                         {
-                            gain =        verif2opt(deb_arc1,suiv_tournee[deb_arc2],deb_arc2,suiv_tournee[deb_arc1]);
+                            gain =        verif2opt(deb_arc1,fin_arc2,deb_arc2,fin_arc1);
+                            cout << gain << endl;
                             if(gain < -0.1)
                             {
+								cout << "hey" << endl;
 								if( (deb_arc1==0 && fin_arc2==0) || (deb_arc2==0 && fin_arc1==0) )
 								{
-									//~ cout << "fusion" << endl;
+									cout << "fusion" << endl;
 								}
                                 update2opt(deb_arc1,suiv_tournee[deb_arc2],deb_arc2,suiv_tournee[deb_arc1]);
                                 distance_totale                        +=        gain;
@@ -682,11 +683,11 @@ void Solution::deux_opt_etoile()
  */ 
 double Solution::verif2opt(int i,int j,int k,int l)
 {
-        double 		gain =  numeric_limits<double>::max();
+    double 		gain =  numeric_limits<double>::max();
 	int			charge0i;
 	int			charge0k;
 	int			chargej0;
-        int			chargel0;
+    int			chargel0;
 	
 	//memes tournees
      if(num_tournee[i] != num_tournee[k])
@@ -695,10 +696,27 @@ double Solution::verif2opt(int i,int j,int k,int l)
 		if(test_TW(i,j) && test_TW(k,l))
 		{
 			//calcul des charges necessaires au calcul du gain
-			charge0i		=	charge_partielle[i];
-			charge0k		= 	charge_partielle[k];
-			chargel0		=	charge_tournee[num_tournee[i]] - charge_partielle[i];
-            chargej0		= 	charge_tournee[num_tournee[k]] - charge_partielle[k];
+			if(i)
+			{
+				charge0i		=	charge_partielle[i];
+				chargel0		=	charge_tournee[num_tournee[i]] - charge_partielle[i];
+			}
+			else
+			{
+				charge0i		=	0;
+				chargel0		=	charge_tournee[num_tournee[l]];
+			}
+			
+			if(k)
+			{
+				charge0k		= 	charge_partielle[k];
+				chargej0		= 	charge_tournee[num_tournee[k]] - charge_partielle[k];
+			}
+			else
+			{
+				charge0k		= 	0;
+				chargej0		= 	charge_tournee[num_tournee[j]];
+			}
 			
 			//verification de la capacite
             if(((charge0i + chargej0) < capacite) && ((charge0k + chargel0) < capacite))
@@ -727,9 +745,11 @@ void Solution::update2opt(int i, int j, int k, int l)
 {
 	int prec 	= 	i;
 	int cour	=	j;
-        int charge_tournee1 =   charge_tournee[num_tournee[i]];
-        int charge_tournee2 =   charge_tournee[num_tournee[k]];
-        int dernier_clt_tmp;
+    int charge_tournee1 =   charge_tournee[num_tournee[i]];
+    int charge_tournee2 =   charge_tournee[num_tournee[k]];
+    int dernier_clt_tmp;
+    int	nl = num_tournee[l];
+    int	nj = num_tournee[j];
 
 	
 	//mise a jour de la tournee
@@ -774,7 +794,37 @@ void Solution::update2opt(int i, int j, int k, int l)
                 prec 		= cour;
                 cour 		= suiv_tournee[cour];
         }
-	
+        
+	if(!i && !j)	//on supprime la tournee de i = nl
+	{
+		nb_tournee--;
+		 premier_client.erase(premier_client.begin() + nl);
+		 dernier_client.erase(dernier_client.begin() + nl);
+		 charge_tournee.erase(charge_tournee.begin() + nl);
+
+		for(int u = nl; u < nb_tournee; ++u)
+		{
+			 for(int clt = premier_client[u] ; clt != 0 ; clt=suiv_tournee[clt])
+			 {
+				 num_tournee[clt] = u;
+			 }
+		}
+	}
+	else if(!k && !l)	//on supprime la tournee de k = nj
+	{
+		nb_tournee--;
+		premier_client.erase(premier_client.begin() + nj);
+		dernier_client.erase(dernier_client.begin() + nj);
+		charge_tournee.erase(charge_tournee.begin() + nj);
+
+		for(int u = nj; u < nb_tournee; ++u)
+		{
+			 for(int clt = premier_client[u] ; clt != 0 ; clt=suiv_tournee[clt])
+			 {
+				 num_tournee[clt] = u;
+			 }
+		}
+	}
 }
 
 
