@@ -30,18 +30,18 @@ class Client
 		int				horaireFermeture_;	//Heure de fermeture du client
 		int				dureeService_;		//Duree service/livraison
 		int				demande_;			//quantite demandee par le client
-		static int 		nb_client;			//nombre de clients
+		static int 		nb_clients;			//nombre de clients
 		
 		//liste des arcs sortants voisins du depot par identifiant
 		vector<int>		arcsSortants_;
 		
 	public:
 		//constructeur d un client
-						Client(int,int,int,int,int,int,int);
+		Client(int,int,int,int,int,int,int);
 		//affichage du client
 		void			affiche();
 		//client sous forme d une chaine de caracteres
-                string			to_std();
+        string			to_std();
 		//recupere la coordonne X
 		int				getX();
 		//recupere la coordonne Y
@@ -56,6 +56,10 @@ class Client
 		int				getHoraireOuverture();
 		//recupere la duree du service d un client
 		int				getDureeService();
+		//recupere le nombre total de clients
+		static int 		getNbClients();
+		//destruction d'un client
+		~Client();
 	
 };
 

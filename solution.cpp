@@ -438,13 +438,14 @@ void Solution::cst_insertion(vector<Client> copyClient)
 {
 	vector<Client>::iterator                it;
 	vector<Client>::iterator                it_erase;
-	int 					index 			= 	0;
-	int					bestClt			=	-1;
+	int 									index 			= 	0;
+	int										bestClt			=	-1;
 	double                                  gain_tmp		= 	numeric_limits<double>::max();
 	double                                  gain_cour 		= 	0;
-	bool					bestCltTrouve           = 	false;
-	bool 					tourneeVide		=	true;
+	bool									bestCltTrouve           = 	false;
+	bool 									tourneeVide		=	true;
 	unsigned int 							i;
+	int 									nb_clts = Client::getNbClients();
 
 	for(i = 0; i < copyClient.size(); ++i)
 	{
@@ -458,7 +459,7 @@ void Solution::cst_insertion(vector<Client> copyClient)
 	//initialise les tournees
 	init_tournees();
 
-	while((unsigned int)index < liste_clients.size() && !copyClient.empty())
+	while((unsigned int)index < nb_clts && !copyClient.empty())
 	{
 		if(!bestCltTrouve)
 		{

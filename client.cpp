@@ -17,7 +17,7 @@
 #include <sstream>
 #include "client.hpp"
 
-int Client::nb_client = 0;
+int Client::nb_clients = 0;
 /*
  * constructeur d un client
 */ 
@@ -31,7 +31,9 @@ Client::Client(	int id,
 		:id_(id), x_(x), y_(y), horaireOuverture_(horaireOuverture)
 		,horaireFermeture_(horaireFermeture),dureeService_(dureeService)
 		,demande_(demande)
-{}
+{
+	nb_clients++;
+}
 
 
 //affichage du client
@@ -136,4 +138,23 @@ int	Client::getHoraireOuverture()
 int Client::getDureeService()
 {
 	return dureeService_;
+}
+
+
+/*
+ * recupere le nombre total de clients
+ * 
+ * sortie:
+ * 		retourne le nombre total de clients
+ */
+int Client::getNbClients()
+{
+	return nb_clients;
+}
+
+
+//destruction d'un client
+Client::~Client()
+{
+	nb_clients--;
 }
