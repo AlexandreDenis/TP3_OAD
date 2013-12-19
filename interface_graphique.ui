@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>interface_graphique_2</class>
+ <widget class="QWidget" name="interface_graphique_2">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1300</width>
+    <height>574</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>OAD</string>
+  </property>
+  <widget class="QGraphicsView" name="interface_graphique">
+   <property name="geometry">
+    <rect>
+     <x>25</x>
+     <y>21</y>
+     <width>1161</width>
+     <height>501</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="afficher_graphe">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>540</y>
+     <width>141</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>afficher graphe</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="chemin_fichier">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>540</y>
+     <width>391</width>
+     <height>27</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="client">
+   <property name="geometry">
+    <rect>
+     <x>1190</x>
+     <y>130</y>
+     <width>92</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>infos clients</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="spinBox">
+   <property name="geometry">
+    <rect>
+     <x>1210</x>
+     <y>60</y>
+     <width>55</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="savings">
+   <property name="geometry">
+    <rect>
+     <x>1200</x>
+     <y>200</y>
+     <width>92</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>savings</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="insertion">
+   <property name="geometry">
+    <rect>
+     <x>1200</x>
+     <y>230</y>
+     <width>91</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>insertion</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="dist_tot">
+   <property name="geometry">
+    <rect>
+     <x>1070</x>
+     <y>540</y>
+     <width>211</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="deux_opt">
+   <property name="geometry">
+    <rect>
+     <x>1200</x>
+     <y>260</y>
+     <width>91</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>2-opt*</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="shift">
+   <property name="geometry">
+    <rect>
+     <x>1200</x>
+     <y>290</y>
+     <width>92</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>shift</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="mult">
+   <property name="geometry">
+    <rect>
+     <x>1200</x>
+     <y>320</y>
+     <width>98</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Multistart</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
