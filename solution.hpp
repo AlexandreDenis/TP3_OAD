@@ -88,7 +88,8 @@ class Solution
 		void                update_date_shift(int tournee);
 		//ameliore l'algorithme selon la methode du multistart
 		void				multistart(int);
-		
+                //retourne le nombre de tournee donc le nombre de vehicule
+                int                             get_nb_tournee();
 		//Destructeur
 		~Solution();
 

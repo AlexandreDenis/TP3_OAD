@@ -58,7 +58,6 @@
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Release</value>
    <value key="QtVersionId" type="int">4</value>
    <value key="ToolChain" type="int">0</value>
-   <value key="addQDumper" type=""></value>
    <value key="buildConfiguration" type="int">0</value>
   </valuemap>
  </data>
@@ -68,15 +67,15 @@
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Release</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList">
     <value type="QString">COLORTERM=gnome-terminal</value>
-    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-LDaX321wjN,guid=47c5b55698f542c053a1c24e00000023</value>
+    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-Ae8JAnuaa1,guid=c0e4df12ca41b0f7132bae160000001f</value>
     <value type="QString">DESKTOP_SESSION=default</value>
     <value type="QString">DISPLAY=:0.0</value>
     <value type="QString">GDMSESSION=default</value>
     <value type="QString">GDM_KEYBOARD_LAYOUT=fr	latin9</value>
     <value type="QString">GDM_LANG=fr_FR.utf8</value>
     <value type="QString">GNOME_DESKTOP_SESSION_ID=this-is-deprecated</value>
-    <value type="QString">GNOME_KEYRING_CONTROL=/tmp/keyring-cEvCmk</value>
-    <value type="QString">GNOME_KEYRING_PID=1891</value>
+    <value type="QString">GNOME_KEYRING_CONTROL=/tmp/keyring-htJL8g</value>
+    <value type="QString">GNOME_KEYRING_PID=1959</value>
     <value type="QString">GTK_RC_FILES=/etc/gtk/gtkrc:/home/adrien/.gtkrc-1.2-gnome2</value>
     <value type="QString">HOME=/home/adrien</value>
     <value type="QString">LANG=fr_FR.utf8</value>
@@ -89,20 +88,20 @@
     <value type="QString">PWD=/home/adrien/cours/isima/annee2/aide_decision/TP3_OAD</value>
     <value type="QString">QTDIR=/usr/share/qt4</value>
     <value type="QString">RUBYLIB=/home/adrien/test/ruby-ode:/home/adrien/test/ruby-dlx:/home/adrien/test/ruby-dlx/.libs</value>
-    <value type="QString">SESSION_MANAGER=local/Adrien-PC:@/tmp/.ICE-unix/1910,unix/Adrien-PC:/tmp/.ICE-unix/1910</value>
+    <value type="QString">SESSION_MANAGER=local/Adrien-PC:@/tmp/.ICE-unix/1978,unix/Adrien-PC:/tmp/.ICE-unix/1978</value>
     <value type="QString">SHELL=/bin/bash</value>
     <value type="QString">SHLVL=1</value>
-    <value type="QString">SSH_AGENT_PID=1940</value>
-    <value type="QString">SSH_AUTH_SOCK=/tmp/keyring-cEvCmk/ssh</value>
+    <value type="QString">SSH_AGENT_PID=2008</value>
+    <value type="QString">SSH_AUTH_SOCK=/tmp/keyring-htJL8g/ssh</value>
     <value type="QString">TERM=xterm</value>
     <value type="QString">USER=adrien</value>
     <value type="QString">USERNAME=adrien</value>
     <value type="QString">WEBOTS_HOME=/home/adrien/cours/isima/projet/webots</value>
-    <value type="QString">WINDOWID=50331651</value>
+    <value type="QString">WINDOWID=46137347</value>
     <value type="QString">WINDOWPATH=7</value>
-    <value type="QString">XAUTHORITY=/var/run/gdm3/auth-for-adrien-k7Nfh4/database</value>
+    <value type="QString">XAUTHORITY=/var/run/gdm3/auth-for-adrien-6VvY5Q/database</value>
     <value type="QString">XDG_DATA_DIRS=/usr/share/gnome:/usr/share/gdm/:/usr/local/share/:/usr/share/</value>
-    <value type="QString">XDG_SESSION_COOKIE=37c65742a9a8947b501db6170000000b-1387219484.205689-498695580</value>
+    <value type="QString">XDG_SESSION_COOKIE=37c65742a9a8947b501db6170000000b-1387531489.64140-163285073</value>
     <value type="QString">_=/usr/bin/qtcreator</value>
    </valuelist>
    <valuelist key="abstractProcess.arguments" type="QVariantList">
@@ -122,15 +121,15 @@
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Release</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList">
     <value type="QString">COLORTERM=gnome-terminal</value>
-    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-LDaX321wjN,guid=47c5b55698f542c053a1c24e00000023</value>
+    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-Ae8JAnuaa1,guid=c0e4df12ca41b0f7132bae160000001f</value>
     <value type="QString">DESKTOP_SESSION=default</value>
     <value type="QString">DISPLAY=:0.0</value>
     <value type="QString">GDMSESSION=default</value>
     <value type="QString">GDM_KEYBOARD_LAYOUT=fr	latin9</value>
     <value type="QString">GDM_LANG=fr_FR.utf8</value>
     <value type="QString">GNOME_DESKTOP_SESSION_ID=this-is-deprecated</value>
-    <value type="QString">GNOME_KEYRING_CONTROL=/tmp/keyring-cEvCmk</value>
-    <value type="QString">GNOME_KEYRING_PID=1891</value>
+    <value type="QString">GNOME_KEYRING_CONTROL=/tmp/keyring-htJL8g</value>
+    <value type="QString">GNOME_KEYRING_PID=1959</value>
     <value type="QString">GTK_RC_FILES=/etc/gtk/gtkrc:/home/adrien/.gtkrc-1.2-gnome2</value>
     <value type="QString">HOME=/home/adrien</value>
     <value type="QString">LANG=fr_FR.utf8</value>
@@ -143,20 +142,20 @@
     <value type="QString">PWD=/home/adrien/cours/isima/annee2/aide_decision/TP3_OAD</value>
     <value type="QString">QTDIR=/usr/share/qt4</value>
     <value type="QString">RUBYLIB=/home/adrien/test/ruby-ode:/home/adrien/test/ruby-dlx:/home/adrien/test/ruby-dlx/.libs</value>
-    <value type="QString">SESSION_MANAGER=local/Adrien-PC:@/tmp/.ICE-unix/1910,unix/Adrien-PC:/tmp/.ICE-unix/1910</value>
+    <value type="QString">SESSION_MANAGER=local/Adrien-PC:@/tmp/.ICE-unix/1978,unix/Adrien-PC:/tmp/.ICE-unix/1978</value>
     <value type="QString">SHELL=/bin/bash</value>
     <value type="QString">SHLVL=1</value>
-    <value type="QString">SSH_AGENT_PID=1940</value>
-    <value type="QString">SSH_AUTH_SOCK=/tmp/keyring-cEvCmk/ssh</value>
+    <value type="QString">SSH_AGENT_PID=2008</value>
+    <value type="QString">SSH_AUTH_SOCK=/tmp/keyring-htJL8g/ssh</value>
     <value type="QString">TERM=xterm</value>
     <value type="QString">USER=adrien</value>
     <value type="QString">USERNAME=adrien</value>
     <value type="QString">WEBOTS_HOME=/home/adrien/cours/isima/projet/webots</value>
-    <value type="QString">WINDOWID=50331651</value>
+    <value type="QString">WINDOWID=46137347</value>
     <value type="QString">WINDOWPATH=7</value>
-    <value type="QString">XAUTHORITY=/var/run/gdm3/auth-for-adrien-k7Nfh4/database</value>
+    <value type="QString">XAUTHORITY=/var/run/gdm3/auth-for-adrien-6VvY5Q/database</value>
     <value type="QString">XDG_DATA_DIRS=/usr/share/gnome:/usr/share/gdm/:/usr/local/share/:/usr/share/</value>
-    <value type="QString">XDG_SESSION_COOKIE=37c65742a9a8947b501db6170000000b-1387219484.205689-498695580</value>
+    <value type="QString">XDG_SESSION_COOKIE=37c65742a9a8947b501db6170000000b-1387531489.64140-163285073</value>
     <value type="QString">_=/usr/bin/qtcreator</value>
    </valuelist>
    <value key="abstractProcess.IgnoreReturnValue" type="bool">false</value>

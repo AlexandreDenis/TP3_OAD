@@ -458,8 +458,7 @@ void Solution::cst_insertion(vector<Client> copyClient, bool alea)
 	double                                  gain_cour 		= 	0;
 	bool									bestCltTrouve           = 	false;
 	bool 									tourneeVide		=	true;
-	unsigned int 							i;
-	//int 									nb_clts = Client::getNbClients();
+        unsigned int 							i;
 
 	for(i = 0; i < copyClient.size(); ++i)
 	{
@@ -611,16 +610,16 @@ void Solution::deux_opt_etoile()
     int         deb_arc2        =        0;
     int         fin_arc1        =        0;
     int         fin_arc2        =        0;
-    double         gain;
-    bool         fin =        false;
-    
+    double      gain;
+    bool        fin =        false;
+
     while(!fin )
     {
         fin = true;
         //pour chaque tournee
         for(int tournee_1 = 0 ; tournee_1 < nb_tournee && fin; ++tournee_1)
         {
-			deb_arc1 						=  	0;
+            deb_arc1 						=  	0;
             fin_arc1 						= 	premier_client[tournee_1];
             
             //pour chaque arc de la tournee
@@ -629,7 +628,7 @@ void Solution::deux_opt_etoile()
                 //pour chaque tournee
                 for(int tournee_2 = tournee_1 + 1 ; tournee_2 < nb_tournee && fin; ++tournee_2)
                 {
-					deb_arc2				=	0;
+                    deb_arc2                =	0;
                     fin_arc2                =   premier_client[tournee_2];
                                                 
                     //pour chaque arc de la tournee
@@ -641,14 +640,8 @@ void Solution::deux_opt_etoile()
                              ))
                         {
                             gain =        verif2opt(deb_arc1,fin_arc2,deb_arc2,fin_arc1);
-                            cout << gain << endl;
                             if(gain < -0.1)
                             {
-								cout << "hey" << endl;
-								if( (deb_arc1==0 && fin_arc2==0) || (deb_arc2==0 && fin_arc1==0) )
-								{
-									cout << "fusion" << endl;
-								}
                                 update2opt(deb_arc1,suiv_tournee[deb_arc2],deb_arc2,suiv_tournee[deb_arc1]);
                                 distance_totale                        +=        gain;
                                 fin = false;
@@ -656,12 +649,12 @@ void Solution::deux_opt_etoile()
                         }
                         deb_arc2 =        fin_arc2;
                         if(fin_arc2)
-							fin_arc2		=	suiv_tournee[fin_arc2];
+                            fin_arc2		=	suiv_tournee[fin_arc2];
                     }
                 }
                 deb_arc1 =        fin_arc1;
                 if(fin_arc1)
-					fin_arc1		=	suiv_tournee[fin_arc1];
+                    fin_arc1		=	suiv_tournee[fin_arc1];
             }
         }
     }
@@ -684,13 +677,24 @@ void Solution::deux_opt_etoile()
 double Solution::verif2opt(int i,int j,int k,int l)
 {
     double 		gain =  numeric_limits<double>::max();
-	int			charge0i;
-	int			charge0k;
-	int			chargej0;
+    int			charge0i;
+    int			charge0k;
+    int			chargej0;
     int			chargel0;
+    int                 tournee1,tournee2;
+
+    if(i)
+        tournee1 = num_tournee[i];
+    else
+        tournee1 = num_tournee[l];
+    if(k)
+        tournee2 = num_tournee[k];
+    else
+        tournee2 = num_tournee[j];
+
 	
 	//memes tournees
-     if(num_tournee[i] != num_tournee[k])
+     if(tournee1 != tournee2)
 	{
 		//verification du respect des fenetres de temps
 		if(test_TW(i,j) && test_TW(k,l))
@@ -743,41 +747,74 @@ double Solution::verif2opt(int i,int j,int k,int l)
  */
 void Solution::update2opt(int i, int j, int k, int l)
 {
-	int prec 	= 	i;
-	int cour	=	j;
-    int charge_tournee1 =   charge_tournee[num_tournee[i]];
-    int charge_tournee2 =   charge_tournee[num_tournee[k]];
+    int prec 	= 	i;
+    int cour	=	j;
+    int charge_tournee1;
+    int charge_tournee2;
     int dernier_clt_tmp;
     int	nl = num_tournee[l];
     int	nj = num_tournee[j];
+    int num_tour1;
+    int num_tour2;
+    int tmp_charge1;
+    int tmp_charge2;
+
+    if(i)
+    {
+        num_tour1 = num_tournee[i];
+        tmp_charge1 = charge_partielle[i];
+        charge_tournee1 =   charge_tournee[num_tournee[i]];
+    }
+    else
+    {
+        num_tour1 = num_tournee[l];
+        tmp_charge1 = 0;
+        charge_tournee1 =   charge_tournee[num_tournee[l]];
+    }
+
+    if(k)
+    {
+        num_tour2 = num_tournee[k];
+        tmp_charge2 = charge_partielle[k];
+        charge_tournee2 =   charge_tournee[num_tournee[k]];
+    }
+    else
+    {
+        num_tour2 = num_tournee[j];
+        tmp_charge2 = 0;
+        charge_tournee2 =   charge_tournee[num_tournee[l]];
+    }
+
 
 	
 	//mise a jour de la tournee
-        charge_tournee[num_tournee[i]]	=	charge_partielle[i] + charge_tournee2 - charge_partielle[k];
-        charge_tournee[num_tournee[k]]	=	charge_partielle[k] + charge_tournee1 - charge_partielle[i];
-        dernier_clt_tmp                 =       dernier_client[num_tournee[i]];
-        dernier_client[num_tournee[i]]	=	dernier_client[num_tournee[k]];
-        dernier_client[num_tournee[k]]  =       dernier_clt_tmp;
+        charge_tournee[num_tour1]	=	tmp_charge1 + charge_tournee2 - tmp_charge2;
+        charge_tournee[num_tour2]	=	tmp_charge2 + charge_tournee1 - tmp_charge1;
+        dernier_clt_tmp                 =       dernier_client[num_tour1];
+        dernier_client[num_tour1]	=	dernier_client[num_tour2];
+        dernier_client[num_tour2]       =       dernier_clt_tmp;
 
         //permutation
-        suiv_tournee[i] 			= j;
+        if(i)
+            suiv_tournee[i] 			= j;
         if(j)
             prec_tournee[j] 			= i;
-        suiv_tournee[k] 			= l;
+        if(k)
+            suiv_tournee[k] 			= l;
         if(l)
             prec_tournee[l] 			= k;
 
 	//mise a jour des clients de la tournee
-	while(cour)
+        while(cour)
         {
-		dates_arrive[cour]		= 	dates_depart[prec] + dist[cour][prec];
+                dates_arrive[cour]		= dates_depart[prec] + dist[cour][prec];
 		dates_depart[cour]		= dates_arrive[cour] + liste_clients[cour].getDureeService();
 		
-		charge_partielle[cour]	=	charge_partielle[prec] + liste_clients[cour].getDemande();
+                charge_partielle[cour]          = charge_partielle[prec] + liste_clients[cour].getDemande();
 		num_tournee[cour]		= num_tournee[prec];
 		
-		prec 		= cour;
-		cour 		= suiv_tournee[cour];
+                prec                            = cour;
+                cour                            = suiv_tournee[cour];
 	}
 
         prec = k;
@@ -785,10 +822,10 @@ void Solution::update2opt(int i, int j, int k, int l)
 
         while(cour)
         {
-                dates_arrive[cour]		= 	dates_depart[prec] + dist[cour][prec];
+                dates_arrive[cour]		= dates_depart[prec] + dist[cour][prec];
                 dates_depart[cour]		= dates_arrive[cour] + liste_clients[cour].getDureeService();
 
-                charge_partielle[cour]	=	charge_partielle[prec] + liste_clients[cour].getDemande();
+                charge_partielle[cour]          = charge_partielle[prec] + liste_clients[cour].getDemande();
                 num_tournee[cour]		= num_tournee[prec];
 
                 prec 		= cour;
@@ -918,39 +955,51 @@ void Solution::update_date_shift(int tournee)
  */ 
 void Solution::multistart(int nb_max)
 {
-	 vector<Client>                                        	copyClient = liste_clients;
-        vector<Client>                                     	oldClt;
-        double                                              oldDist = numeric_limits<double>::max();
-        double                                              newDist;
+    vector<Client>      copyClient      = liste_clients;
+    vector<Client>      oldClt;
+    double              oldDist         = numeric_limits<double>::max();
+    double              newDist;
         
-        for(int i = 0; i < nb_max; ++i)
-        {                
-			//generation d'une sequence de clients aleatoires
-			random_shuffle(copyClient.begin(), copyClient.end());
+    for(int i = 0; i < nb_max; ++i)
+    {
+        //generation d'une sequence de clients aleatoires
+        random_shuffle(copyClient.begin(), copyClient.end());
 
-			//on applique l'heurisique d'insertion en utilisant cet ordre
-			cst_insertion(copyClient,true);
+        //on applique l'heurisique d'insertion en utilisant cet ordre
+        cst_insertion(copyClient,true);
 
-			//recherche_locale
-			deux_opt_etoile();
-			shift();
-
-			//on recupere la nouvelle distance totale
-			newDist                                         = distance_totale;
-
-			//la nouvelle solution est plus performente que l'actuelle
-			if(newDist < oldDist)
-			{
-					oldDist                                        =        newDist;
-					oldClt.clear();
-					oldClt                                        =        copyClient;
-			}
-        }
-
-        /*on met en place la meilleures solution trouvee*/
-        cst_insertion(oldClt,true);
+        //recherche_locale
         deux_opt_etoile();
         shift();
+
+        //on recupere la nouvelle distance totale
+        newDist                 =       distance_totale;
+
+        //la nouvelle solution est plus performente que l'actuelle
+        if(newDist < oldDist)
+        {
+            oldDist             =        newDist;
+            oldClt.clear();
+            oldClt              =        copyClient;
+        }
+    }
+
+    /*on met en place la meilleures solution trouvee*/
+    cst_insertion(oldClt,true);
+    deux_opt_etoile();
+    shift();
+}
+
+
+/*
+retourne le nombre de tournee donc le nombre de vehicule
+
+sortie : le nombre de véhicule
+
+*/
+int Solution::get_nb_tournee()
+{
+    return nb_tournee;
 }
 
 //Destructeur

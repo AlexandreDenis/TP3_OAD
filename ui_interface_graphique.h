@@ -1,8 +1,8 @@
 /********************************************************************************
 ** Form generated from reading UI file 'interface_graphique.ui'
 **
-** Created: Tue Dec 17 17:43:32 2013
-**      by: Qt User Interface Compiler version 4.8.1
+** Created: Fri Dec 20 11:09:19 2013
+**      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -67,7 +67,7 @@ public:
         insertion->setGeometry(QRect(1200, 230, 91, 27));
         dist_tot = new QLabel(interface_graphique_2);
         dist_tot->setObjectName(QString::fromUtf8("dist_tot"));
-        dist_tot->setGeometry(QRect(1070, 540, 211, 16));
+        dist_tot->setGeometry(QRect(1070, 525, 211, 41));
         deux_opt = new QPushButton(interface_graphique_2);
         deux_opt->setObjectName(QString::fromUtf8("deux_opt"));
         deux_opt->setGeometry(QRect(1200, 260, 91, 27));

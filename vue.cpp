@@ -233,6 +233,6 @@ void Vue::afficherLigne()
         lignes.push_back(scene.addLine(x_cour,y_cour,x_cour2,y_cour2));
     }
 
-    ss << "distance totale = " << s->getDistTot();
+    ss << "distance totale = " << s->getDistTot() << endl << "nombre de vehicules = " << s->get_nb_tournee();
     dist_tot->setText(ss.str().data());
 }
