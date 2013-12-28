@@ -34,10 +34,12 @@ Vue::Vue(QWidget *parent)
     afficher=false;
     saving=false;
     insert=false;
+    multi_go=false;
     setupUi(this);
     interface_graphique->setScene(&scene);
     connect(afficher_graphe,SIGNAL( clicked() ),this,SLOT( init() ));
     connect(client,SIGNAL( clicked() ),this,SLOT( afficherClt() ));
+    connect(infosTournees,SIGNAL( clicked() ),this,SLOT( afficherTrn() ));
     connect(savings,SIGNAL( clicked() ),this,SLOT( sav() ));
     connect(insertion,SIGNAL( clicked() ),this,SLOT( ins() ));
     connect(deux_opt,SIGNAL( clicked() ),this,SLOT( deux_opt_vue() ));
@@ -62,6 +64,7 @@ void Vue::init()
 {
     saving=false;
     insert=false;
+    multi_go=false;
 
     s->creer_clients( ( (chemin_fichier->text()).toStdString() ).data() );
 
@@ -130,10 +133,24 @@ void Vue::afficherClt()
 	if(afficher)
 	{
 		QMessageBox 		win;
-        win.setText(s->get_client_by_num(spinBox->value()).to_std().data());
+                win.setText(s->get_client_by_num(spinBox->value()).to_std().data());
 		win.show();
 		win.exec();
 	}
+}
+
+/*
+ * affiche une tournee
+ */
+void Vue::afficherTrn()
+{
+    if(afficher && (insert || saving || multi_go))
+    {
+        QMessageBox 		win;
+        win.setText(s->get_tournee_by_num(spinBox_2->value()).data());
+        win.show();
+        win.exec();
+    }
 }
 
 /*
@@ -156,7 +173,7 @@ void Vue::ins()
 {
     if(afficher)
     {
-        s->cst_insertion(s->get_client(),false);
+        s->cst_insertion(s->get_client());
         afficherLigne();
         insert = true;
     }
@@ -196,7 +213,8 @@ void Vue::multi()
 {
     if(afficher)
     {
-        s->multistart(10);
+        multi_go = true;
+        s->multistart(1);
         afficherLigne();
     }
 }

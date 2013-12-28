@@ -44,6 +44,7 @@ private:
     bool afficher;
     bool saving;
     bool insert;
+    bool multi_go;
     QList<QGraphicsItem*> lignes;
 
 public:
@@ -55,6 +56,7 @@ public:
 public slots:
     void init();
     void afficherClt();
+    void afficherTrn();
     void sav();
     void ins();
     void deux_opt_vue();

@@ -28,8 +28,8 @@ class Solution
 		int 				capacite;		//capacite des vehicules
 		
 		//tableaux indexes sur les sommets
-		vector<double>		dates_arrive;	//dates arrivees chez les clients
-		vector<double>		dates_depart;	//dates departs chez les clients
+                vector<double>                  dates_arrive;	//dates arrivees chez les clients
+                vector<double>                  dates_depart;	//dates departs chez les clients
 		vector<int>			prec_tournee;	//sommet precedent dans la tournee
 		vector<int>			suiv_tournee;	//sommet suivant dans la tournee
 		vector<int>			num_tournee;	//numero de tournee pour un sommet
@@ -40,9 +40,8 @@ class Solution
 		vector<int>			premier_client;	//premier client d une tournee
 		vector<int>			dernier_client;	//dernier client d une tournee
 		
-		int 				nb_tournee; 	//nombre de tournee		 
-		
-        vector<Client>      liste_clients;	//liste des clients
+                int 				nb_tournee; 	//nombre de tournee
+                vector<Client>                  liste_clients;	//liste des clients
 		double				distance_totale;//distance totale des tournees
 
 		double 				**dist;         //matrice des distances
@@ -55,9 +54,11 @@ class Solution
 		//affichage des clients
 		void				affiche();
 		//recuperation de la liste des clients
-		vector<Client>& 	get_client();
-		//retourne le client a une position donnee
-		Client&				get_client_by_num(int pos);
+                vector<Client>& 	get_client();
+                //retourne le client a une position donnee
+                Client&				get_client_by_num(int pos);
+                //retourne la tournee via un numero de tournee
+                string				get_tournee_by_num(int pos);
 		//test la capacite d une tournee
         bool 				test_capacite(int,int);
 		//test la capacite d une tournee avec un client
@@ -73,7 +74,7 @@ class Solution
 		//creer les tournees selon une heuristique de savings
 		void				cst_savings();		
 		//creer les tournees selon une heuristique d'insertion
-		void				cst_insertion(vector<Client>, bool);	
+                void				cst_insertion(vector<Client>);
 		//recupere la distance totale de la solution
 		double				getDistTot();
 		//ameliore la solution avec l'algorithme du 2-opt*
@@ -99,15 +100,18 @@ class Solution
 class SGain
 {
 public :
-        int					i;
-        int					j;
+        int				i;
+        int				j;
         double 				gain;
 };
 
 class Gain_fonc
 {
 	public:
-		bool operator()(const SGain & s1,const SGain & s2) { return (s1.gain > s2.gain); }
+		bool operator()(const SGain & s1,const SGain & s2) 
+                { 
+                    return ( s1.gain > s2.gain); 
+                }
 };
 
 #endif

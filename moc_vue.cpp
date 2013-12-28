@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'vue.hpp'
 **
-** Created: Fri Dec 20 11:09:22 2013
+** Created: Sat Dec 28 16:10:52 2013
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_Vue[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       7,   14, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -34,17 +34,19 @@ static const uint qt_meta_data_Vue[] = {
        5,    4,    4,    4, 0x0a,
       12,    4,    4,    4, 0x0a,
       26,    4,    4,    4, 0x0a,
-      32,    4,    4,    4, 0x0a,
-      38,    4,    4,    4, 0x0a,
-      53,    4,    4,    4, 0x0a,
-      59,    4,    4,    4, 0x0a,
+      40,    4,    4,    4, 0x0a,
+      46,    4,    4,    4, 0x0a,
+      52,    4,    4,    4, 0x0a,
+      67,    4,    4,    4, 0x0a,
+      73,    4,    4,    4, 0x0a,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_Vue[] = {
-    "Vue\0\0init()\0afficherClt()\0sav()\0ins()\0"
-    "deux_opt_vue()\0sht()\0multi()\0"
+    "Vue\0\0init()\0afficherClt()\0afficherTrn()\0"
+    "sav()\0ins()\0deux_opt_vue()\0sht()\0"
+    "multi()\0"
 };
 
 const QMetaObject Vue::staticMetaObject = {
@@ -78,14 +80,15 @@ int Vue::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         switch (_id) {
         case 0: init(); break;
         case 1: afficherClt(); break;
-        case 2: sav(); break;
-        case 3: ins(); break;
-        case 4: deux_opt_vue(); break;
-        case 5: sht(); break;
-        case 6: multi(); break;
+        case 2: afficherTrn(); break;
+        case 3: sav(); break;
+        case 4: ins(); break;
+        case 5: deux_opt_vue(); break;
+        case 6: sht(); break;
+        case 7: multi(); break;
         default: ;
         }
-        _id -= 7;
+        _id -= 8;
     }
     return _id;
 }
