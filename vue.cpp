@@ -18,6 +18,8 @@
 #include <sstream>
 #include <iostream>
 #include <QMessageBox>
+#include <QString>
+#include <QFileDialog>
 
 const int rapport_image=20;
 
@@ -45,8 +47,6 @@ Vue::Vue(QWidget *parent)
     connect(deux_opt,SIGNAL( clicked() ),this,SLOT( deux_opt_vue() ));
     connect(shift,SIGNAL( clicked() ),this,SLOT( sht() ));
     connect(mult,SIGNAL( clicked() ),this,SLOT( multi() ));
-    QString qs("don1.txt");
-    chemin_fichier->setText(qs);
     s=new Solution();
 }
 
@@ -62,12 +62,19 @@ Vue::~Vue()
  */
 void Vue::init()
 {
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),"",tr("Files (*.*)"));
+    nom_fichier = fileName.toStdString();
+
     saving=false;
     insert=false;
     multi_go=false;
 
-    s->creer_clients( ( (chemin_fichier->text()).toStdString() ).data() );
+    delete s;
+    s=new Solution();
 
+    s->creer_clients( nom_fichier.data() );
+
+    scene.clear();
     afficherGraphe();
 }
 
@@ -88,16 +95,6 @@ void Vue::afficherGraphe()
     clients = s->get_client();
 
     spinBox->setMaximum(clients.size()-1);
-    
-    //remise a zero de l affichage
-    //~ scene.clear();
-    if(lignes.size() > 0)
-        {
-            for(QList<QGraphicsItem*>::iterator it = lignes.begin() ; it != lignes.end() ; ++it)
-                scene.removeItem(*it);
-                
-            lignes.clear();
-        }
     
     //pour chaque client
     for(vector<Client>::iterator it = clients.begin(); it != clients.end(); ++it)
@@ -160,7 +157,9 @@ void Vue::sav()
 {
     if(afficher)
     {
+        tmp_deb = time(0);
         s->cst_savings();
+        tmp_fin = time(0);
         afficherLigne();
         saving = true;
     }
@@ -173,7 +172,9 @@ void Vue::ins()
 {
     if(afficher)
     {
+        tmp_deb = time(0);
         s->cst_insertion(s->get_client());
+        tmp_fin = time(0);
         afficherLigne();
         insert = true;
     }
@@ -187,7 +188,9 @@ void Vue::deux_opt_vue()
 {
         if(afficher && (insert || saving))
         {
+            tmp_deb = time(0);
             s->deux_opt_etoile();
+            tmp_fin = time(0);
             afficherLigne();
         }
 }
@@ -199,7 +202,9 @@ void Vue::sht()
 {
     if(afficher && (insert || saving))
     {
+        tmp_deb = time(0);
         s->shift();
+        tmp_fin = time(0);
         afficherLigne();
     }
 }
@@ -214,7 +219,9 @@ void Vue::multi()
     if(afficher)
     {
         multi_go = true;
-        s->multistart(1);
+        tmp_deb = time(0);
+        s->multistart(10);
+        tmp_fin = time(0);
         afficherLigne();
     }
 }
@@ -228,13 +235,8 @@ void Vue::afficherLigne()
     vector<Client>              clients;
     vector<int>                 clients_suiv;
 
-    if(lignes.size() > 0)
-    {
-        for(QList<QGraphicsItem*>::iterator it = lignes.begin() ; it != lignes.end() ; ++it)
-                                    scene.removeItem(*it);
-
-        lignes.clear();
-    }
+    scene.clear();
+    afficherGraphe();
 
     clients                                         = s->get_client();
     clients_suiv                                    = s->get_suiv_tournee();
@@ -251,6 +253,8 @@ void Vue::afficherLigne()
         lignes.push_back(scene.addLine(x_cour,y_cour,x_cour2,y_cour2));
     }
 
-    ss << "distance totale = " << s->getDistTot() << endl << "nombre de vehicules = " << s->get_nb_tournee();
+    ss << nom_fichier << endl;
+    ss << "distance totale = " << s->getDistTot() << endl << "nombre de vehicules = " << s->get_nb_tournee() << endl;
+    ss << "temps mis = " << tmp_fin-tmp_deb << endl;
     dist_tot->setText(ss.str().data());
 }

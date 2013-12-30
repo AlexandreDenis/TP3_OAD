@@ -116,9 +116,7 @@ void Solution::init_distance()
  * affichage des clients
  */ 
 void Solution::affiche()
-{
-	//~ cout<<liste_clients.size()<<endl;
-		
+{		
 	for(vector<Client>::iterator it = liste_clients.begin(); it != liste_clients.end(); ++it)
 		it->affiche();
 }
@@ -269,11 +267,6 @@ void Solution::cst_savings()
                  }
          }
          sort(arcs_clients.begin(),arcs_clients.end(),Gain_fonc());
-         
-         /*for(vector<SGain>::iterator it = arcs_clients.begin(); it != arcs_clients.end(); ++it)
-			cout << it->gain << endl;      */    
-
-
 
          //Parcours des arcs dans l'ordre decroissant du gain
          for(vector<SGain>::iterator it = arcs_clients.begin(); it != arcs_clients.end(); ++it)
@@ -479,106 +472,107 @@ vector<int>& Solution::get_suiv_tournee()
  */
 void Solution::cst_insertion(vector<Client> copyClient)
 {
-	vector<Client>::iterator                it;
-	vector<Client>::iterator                it_erase;
-        int 					index 			= 	0;
-        int					bestClt			=	-1;
-	double                                  gain_tmp		= 	numeric_limits<double>::max();
-	double                                  gain_cour 		= 	0;
-        bool					bestCltTrouve           = 	false;
-        bool 					tourneeVide		=	true;
-        unsigned int 				i;
+    vector<Client>::iterator                it;
+    vector<Client>::iterator                it_erase;
+    int                                     index 		= 	0;
+    int                                     bestClt		=	-1;
+    double                                  gain_tmp		= 	numeric_limits<double>::max();
+    double                                  gain_cour 		= 	0;
+    bool                                    bestCltTrouve       = 	false;
+    bool                                    tourneeVide		=	true;
+    unsigned int                            i;
 
-	for(i = 0; i < copyClient.size(); ++i)
-	{
-		if(!copyClient[i].getId())
-			break;
-	}
-	
-	if(i < copyClient.size())
-		copyClient.erase(copyClient.begin() + i);
-	
-	//initialise les tournees
-	init_tournees();
+    for(i = 0; i < copyClient.size(); ++i)
+    {
+            if(!copyClient[i].getId())
+                    break;
+    }
 
-	while((unsigned int)index < liste_clients.size() && !copyClient.empty())
-	{
-		if(!bestCltTrouve)
-		{
-			//creation d'une tournee vide
-			index = nb_tournee;
-			nb_tournee++;
-			charge_tournee[index] 	= 	0;
-			tourneeVide				=	true;
-			gain_tmp			  	= 	numeric_limits<double>::max();
-		}
-		
-		//initialisation du meilleur client
-		bestCltTrouve				= 	false;
-		
-		//Choix du "meilleur" client
-		for(it = copyClient.begin(); it != copyClient.end(); ++it)
-		{
-			//test du respect des contraintes
-			if((unsigned int)index < liste_clients.size())
-			{
-				if( tourneeVide || (!tourneeVide && test_capaciteClt(index,it->getId()) && test_TW(dernier_client[index],it->getId()) ) )
-				{
-					bestCltTrouve 	= 	true;
-	
-					if(tourneeVide)
-					{
-						gain_cour 	= 2. * dist[0][it->getId()];
-					}
-					else
-					{
-						gain_cour 	= dist[dernier_client[index]][it->getId()]
-									+ dist[0][it->getId()]
-									- dist[0][dernier_client[index]];
-					}
+    if(i < copyClient.size())
+            copyClient.erase(copyClient.begin() + i);
 
-					if(	gain_cour < gain_tmp )
-					{
-						it_erase    =       it;
-						bestClt		=	it->getId();
-                                                gain_tmp	=	gain_cour;
-                                        }
-				}
-			}
-		}
+    //initialise les tournees
+    init_tournees();
+
+    while((unsigned int)index < liste_clients.size() && !copyClient.empty())
+    {
+        if(!bestCltTrouve)
+        {
+                //creation d'une tournee vide
+                index = nb_tournee;
+                nb_tournee++;
+                charge_tournee[index] 	= 	0;
+                tourneeVide		=	true;
+                gain_tmp		= 	numeric_limits<double>::max();
+        }
+
+        //initialisation du meilleur client
+        bestCltTrouve				= 	false;
+
+        //Choix du "meilleur" client
+        for(it = copyClient.begin(); it != copyClient.end(); ++it)
+        {
+                //test du respect des contraintes
+                if((unsigned int)index < liste_clients.size())
+                {
+                        if( tourneeVide || (!tourneeVide && test_capaciteClt(index,it->getId()) && test_TW(dernier_client[index],it->getId()) ) )
+                        {
+                                bestCltTrouve 	= 	true;
+
+                                if(tourneeVide)
+                                {
+                                        gain_cour 	= 2. * dist[0][it->getId()];
+                                }
+                                else
+                                {
+                                        gain_cour 	= dist[dernier_client[index]][it->getId()]
+                                                                + dist[0][it->getId()]
+                                                                - dist[0][dernier_client[index]];
+                                }
+
+                                if(	gain_cour < gain_tmp )
+                                {
+                                        it_erase        =       it;
+                                        bestClt		=	it->getId();
+                                        gain_tmp	=	gain_cour;
+                                }
+                        }
+                }
+        }
 		
-		//insertion du meilleur client en fin de tournee
-		if(bestCltTrouve)
+        //insertion du meilleur client en fin de tournee
+        if(bestCltTrouve)
         {
             copyClient.erase(it_erase);
-			
-			if(tourneeVide)
-			{
-				tourneeVide			=	false;
-				premier_client[index]           =	bestClt;
-				dates_arrive[bestClt]		=	dist[bestClt][0];
-				prec_tournee[bestClt]		=	0;
-				charge_partielle[bestClt]	=	liste_clients[bestClt].getDemande();
-			}
-			else
-			{
-				charge_partielle[bestClt]	=	charge_partielle[prec_tournee[bestClt]] + liste_clients[bestClt].getDemande();
-				dates_arrive[bestClt]		=	dates_depart[dernier_client[index]]
-                                                                +	dist[bestClt][dernier_client[index]];
-				prec_tournee[bestClt]		=	dernier_client[index];
-				suiv_tournee[dernier_client[index]] =   bestClt;
-			}
 
-                        dates_depart[bestClt]		=	dates_arrive[bestClt]
-                                                        +	liste_clients[bestClt].getDureeService();
+            if(tourneeVide)
+            {
+                    tourneeVide			=	false;
+                    premier_client[index]       =	bestClt;
+                    dates_arrive[bestClt]	=	dist[bestClt][0];
+                    prec_tournee[bestClt]	=	0;
+                    charge_partielle[bestClt]	=	liste_clients[bestClt].getDemande();
+            }
+            else
+            {
+                    charge_partielle[bestClt]	=	charge_partielle[prec_tournee[bestClt]] + liste_clients[bestClt].getDemande();
+                    dates_arrive[bestClt]	=	dates_depart[dernier_client[index]]
+                                                +	dist[bestClt][dernier_client[index]];
+                    prec_tournee[bestClt]	=	dernier_client[index];
 
-			suiv_tournee[bestClt]		=	0;
-			num_tournee[bestClt]		=	index;
-			charge_tournee[index]		+=	liste_clients[bestClt].getDemande();
-			dernier_client[index]		=	bestClt;
-                        distance_totale			+=	gain_tmp;
-                        gain_tmp			= 	numeric_limits<double>::max();
-		}
+                    suiv_tournee[dernier_client[index]] =   bestClt;
+            }
+
+            dates_depart[bestClt]		=	dates_arrive[bestClt]
+                                                +	liste_clients[bestClt].getDureeService();
+
+            suiv_tournee[bestClt]		=	0;
+            num_tournee[bestClt]		=	index;
+            charge_tournee[index]		+=	liste_clients[bestClt].getDemande();
+            dernier_client[index]		=	bestClt;
+            distance_totale			+=	gain_tmp;
+            gain_tmp                            = 	numeric_limits<double>::max();
+        }
     }
 }
 
@@ -663,7 +657,6 @@ void Solution::deux_opt_etoile()
                     //pour chaque arc de la tournee
                     while((deb_arc2 || fin_arc2) && fin)
                     {
-                        //cout << deb_arc2 << " " << fin_arc2 << endl;
                         //on ne teste pas les cas inutiles
                         if( !( (deb_arc1 == 0 && deb_arc2==0)
                             ||	(fin_arc1==0 && fin_arc2==0)
@@ -786,7 +779,6 @@ void Solution::update2opt(int i, int j, int k, int l)
         int num_tour2=-1;
         int tmp_charge1=0;
         int tmp_charge2=0;
-        bool continuer = true;
 
         if(i)
         {
@@ -814,95 +806,83 @@ void Solution::update2opt(int i, int j, int k, int l)
             charge_tournee2 =   charge_tournee[num_tournee[j]];
         }
 
-        if(continuer)
-        {
-            if(i==j || k==l)
-            {
-                cout << k << " pb " << l << endl;
-                cout << i << " pb " << j << endl;
-                cout << num_tournee[k] << " pb " << num_tournee[l] << endl;
-                cout << num_tournee[i] << " pb " << num_tournee[j] << endl;
-            }
+		//mise a jour de la tournee
+		charge_tournee[num_tour1]	=	tmp_charge1 + charge_tournee2 - tmp_charge2;
+		charge_tournee[num_tour2]	=	tmp_charge2 + charge_tournee1 - tmp_charge1;
+		dernier_clt_tmp             =       dernier_client[num_tour1];
+		dernier_client[num_tour1]	=	dernier_client[num_tour2];
+		dernier_client[num_tour2]   =       dernier_clt_tmp;
 
-            //mise a jour de la tournee
-            charge_tournee[num_tour1]	=	tmp_charge1 + charge_tournee2 - tmp_charge2;
-            charge_tournee[num_tour2]	=	tmp_charge2 + charge_tournee1 - tmp_charge1;
-            dernier_clt_tmp             =       dernier_client[num_tour1];
-            dernier_client[num_tour1]	=	dernier_client[num_tour2];
-            dernier_client[num_tour2]   =       dernier_clt_tmp;
+		//permutation
+		if(i)
+			suiv_tournee[i] 			= j;
+		if(j)
+			prec_tournee[j] 			= i;
+		if(k)
+			suiv_tournee[k] 			= l;
+		if(l)
+			prec_tournee[l] 			= k;
 
-            //permutation
-            if(i)
-                suiv_tournee[i] 			= j;
-            if(j)
-                prec_tournee[j] 			= i;
-            if(k)
-                suiv_tournee[k] 			= l;
-            if(l)
-                prec_tournee[l] 			= k;
+		//mise a jour des clients de la tournee
+		prec = i;
+		cour = j;
+		while(cour)
+		{
+				dates_arrive[cour]		= dates_depart[prec] + dist[cour][prec];
+				dates_depart[cour]		= dates_arrive[cour] + liste_clients[cour].getDureeService();
 
-            //mise a jour des clients de la tournee
-            prec = i;
-            cour = j;
-            while(cour)
-            {
-                    //cout << cour << endl;
-                    dates_arrive[cour]		= dates_depart[prec] + dist[cour][prec];
-                    dates_depart[cour]		= dates_arrive[cour] + liste_clients[cour].getDureeService();
+				charge_partielle[cour]          = charge_partielle[prec] + liste_clients[cour].getDemande();
+				num_tournee[cour]		= num_tournee[prec];
 
-                    charge_partielle[cour]          = charge_partielle[prec] + liste_clients[cour].getDemande();
-                    num_tournee[cour]		= num_tournee[prec];
+				prec                            = cour;
+				cour                            = suiv_tournee[cour];
+		}
 
-                    prec                            = cour;
-                    cour                            = suiv_tournee[cour];
-            }
+		prec = k;
+		cour = l;
+		while(cour)
+		{
+				dates_arrive[cour]		= dates_depart[prec] + dist[cour][prec];
+				dates_depart[cour]		= dates_arrive[cour] + liste_clients[cour].getDureeService();
 
-            prec = k;
-            cour = l;
-            while(cour)
-            {
-                    //cout << cour << endl;
-                    dates_arrive[cour]		= dates_depart[prec] + dist[cour][prec];
-                    dates_depart[cour]		= dates_arrive[cour] + liste_clients[cour].getDureeService();
+				charge_partielle[cour]      = charge_partielle[prec] + liste_clients[cour].getDemande();
+				num_tournee[cour]		= num_tournee[prec];
 
-                    charge_partielle[cour]      = charge_partielle[prec] + liste_clients[cour].getDemande();
-                    num_tournee[cour]		= num_tournee[prec];
+				prec                        = cour;
+				cour                        = suiv_tournee[cour];
+		}
 
-                    prec                        = cour;
-                    cour                        = suiv_tournee[cour];
-            }
+		if(!i && !j)	//on supprime la tournee de i
+		{
+				 nb_tournee--;
+				 premier_client.erase(premier_client.begin() + num_tour1);
+				 dernier_client.erase(dernier_client.begin() + num_tour1);
+				 charge_tournee.erase(charge_tournee.begin() + num_tour1);
 
-            if(!i && !j)	//on supprime la tournee de i
-            {
-                     nb_tournee--;
-                     premier_client.erase(premier_client.begin() + num_tour1);
-                     dernier_client.erase(dernier_client.begin() + num_tour1);
-                     charge_tournee.erase(charge_tournee.begin() + num_tour1);
+				for(int u = num_tour1; u < nb_tournee; ++u)
+				{
+						 for(int clt = premier_client[u] ; clt != 0 ; clt=suiv_tournee[clt])
+						 {
+								 num_tournee[clt] = u;
+						 }
+				}
+		}
+		else if(!k && !l)	//on supprime la tournee de k
+		{
+				nb_tournee--;
+				premier_client.erase(premier_client.begin() + num_tour2);
+				dernier_client.erase(dernier_client.begin() + num_tour2);
+				charge_tournee.erase(charge_tournee.begin() + num_tour2);
 
-                    for(int u = num_tour1; u < nb_tournee; ++u)
-                    {
-                             for(int clt = premier_client[u] ; clt != 0 ; clt=suiv_tournee[clt])
-                             {
-                                     num_tournee[clt] = u;
-                             }
-                    }
-            }
-            else if(!k && !l)	//on supprime la tournee de k
-            {
-                    nb_tournee--;
-                    premier_client.erase(premier_client.begin() + num_tour2);
-                    dernier_client.erase(dernier_client.begin() + num_tour2);
-                    charge_tournee.erase(charge_tournee.begin() + num_tour2);
-
-                    for(int u = num_tour2; u < nb_tournee; ++u)
-                    {
-                             for(int clt = premier_client[u] ; clt != 0 ; clt=suiv_tournee[clt])
-                             {
-                                     num_tournee[clt] = u;
-                             }
-                    }
-            }
-        }
+				for(int u = num_tour2; u < nb_tournee; ++u)
+				{
+						 for(int clt = premier_client[u] ; clt != 0 ; clt=suiv_tournee[clt])
+						 {
+								 num_tournee[clt] = u;
+						 }
+				}
+		}
+        
 }
 
 
@@ -953,10 +933,12 @@ void Solution::shift()
                     int tmp2 = prec_tournee[pos_max1];
                     int tmp3 = suiv_tournee[pos_max2];
 
-					if(tmp2)
-						suiv_tournee[tmp2]    =   tmp1;
-                    prec_tournee[tmp1]    =   tmp2;
-                    prec_tournee[tmp3]    =   pos_max1;
+                    if(tmp2)
+                        suiv_tournee[tmp2]    =   tmp1;
+                    if(tmp1)
+                        prec_tournee[tmp1]    =   tmp2;
+                    if(tmp3)
+                        prec_tournee[tmp3]    =   pos_max1;
 
                     prec_tournee[pos_max1]                      =   pos_max2;
                     suiv_tournee[pos_max1]                      =   tmp3;

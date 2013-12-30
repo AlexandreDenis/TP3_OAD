@@ -25,6 +25,7 @@
 #include <QList>
 #include <QGraphicsItem>
 #include <boost/shared_ptr.hpp>
+#include <ctime>
 
 #include "solution.hpp"
 #include "ui_interface_graphique.h"
@@ -46,6 +47,9 @@ private:
     bool insert;
     bool multi_go;
     QList<QGraphicsItem*> lignes;
+    time_t  tmp_deb;
+    time_t  tmp_fin;
+    string nom_fichier;
 
 public:
     Vue(QWidget *parent=0);

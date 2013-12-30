@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1300</width>
-    <height>574</height>
+    <height>617</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,32 +26,22 @@
   <widget class="QPushButton" name="afficher_graphe">
    <property name="geometry">
     <rect>
-     <x>630</x>
-     <y>540</y>
+     <x>340</x>
+     <y>550</y>
      <width>141</width>
      <height>27</height>
     </rect>
    </property>
    <property name="text">
-    <string>afficher graphe</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="chemin_fichier">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>540</y>
-     <width>391</width>
-     <height>27</height>
-    </rect>
+    <string>charger instance</string>
    </property>
   </widget>
   <widget class="QPushButton" name="client">
    <property name="geometry">
     <rect>
      <x>1190</x>
-     <y>130</y>
-     <width>92</width>
+     <y>50</y>
+     <width>101</width>
      <height>27</height>
     </rect>
    </property>
@@ -62,9 +52,9 @@
   <widget class="QSpinBox" name="spinBox">
    <property name="geometry">
     <rect>
-     <x>1210</x>
-     <y>60</y>
-     <width>55</width>
+     <x>1190</x>
+     <y>20</y>
+     <width>101</width>
      <height>26</height>
     </rect>
    </property>
@@ -98,10 +88,10 @@
   <widget class="QLabel" name="dist_tot">
    <property name="geometry">
     <rect>
-     <x>1070</x>
-     <y>525</y>
-     <width>211</width>
-     <height>41</height>
+     <x>820</x>
+     <y>550</y>
+     <width>471</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="text">
@@ -139,12 +129,38 @@
     <rect>
      <x>1200</x>
      <y>320</y>
-     <width>98</width>
+     <width>91</width>
      <height>27</height>
     </rect>
    </property>
    <property name="text">
     <string>Multistart</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="spinBox_2">
+   <property name="geometry">
+    <rect>
+     <x>1190</x>
+     <y>80</y>
+     <width>101</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="minimum">
+    <number>0</number>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="infosTournees">
+   <property name="geometry">
+    <rect>
+     <x>1190</x>
+     <y>110</y>
+     <width>101</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>infos tournees</string>
    </property>
   </widget>
  </widget>
