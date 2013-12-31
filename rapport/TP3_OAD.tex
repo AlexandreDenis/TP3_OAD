@@ -86,7 +86,7 @@ Les algorithmes ont été écrits en C++, langage proposé par M.Duhamel. Dans c
 \paragraph{}
 En plus de ces algorithmes, quelques fonctionnalitées ont été ajoutées afin de rendre le travail plus représentatif. En effet, nous avons une interface 
 graphique réalisée en QT permettant de visualiser l'ensemble des clients et des routes à prendre d'un problème que l'on peut choisir soi-même dans le
-dossier adéquat. De plus, il est possible de consulter à tous moments des informations concernant les clients et les tournées. Puis, le logiciel donne 
+dossier adéquat. De plus, il est possible de consulter à tout moment des informations concernant les clients et les tournées. Puis, le logiciel donne 
 aussi la possibilité de lancer l'algorithme de son choix sur l'instance choisie.
 
 \paragraph{}
@@ -115,24 +115,24 @@ des véhicules puis pour chaque ligne de créer un client ayant les caractérist
 type \textbf{fstream}, ainsi on a un flux sur le fichier permettant une lecture rapide et efficace du fichier.
 
 \paragraph{}
-Après lecture du fichier, il est nécessaire d'initialiser la solution. Pour ce faire, nous avons utiliser les heuristiques d'Insertion et de Savings.
+Après lecture du fichier, il est nécessaire d'initialiser la solution. Pour ce faire, nous avons utilisé les heuristiques d'Insertion et de Savings.
 
 \subsection{L'heuristique d'Insertion}
 
 \paragraph{}
-Cette heuristique permet de créer une solution initiale au problème. Le but de cet algorithme est de créer des tournées une après à l'autre en 
+Cette heuristique permet de créer une solution initiale au problème. Le but de cet algorithme est de créer des tournées les unes après à les autre en 
 ajoutant les clients les uns après les autres avec des critères bien définis.
 
 \paragraph{}
 Le but est donc de créer au départ une tournée vide puis d'ajouter, un par un, les meilleurs clients. Meilleur est un terme subjectif car, on peut choisir les 
-client selon un ordre défini. Mais le terme meilleur désigne le client qui augmente le moins la distance totale de la tournée.
+clients selon un ordre défini. Mais le terme meilleur désigne le client qui augmente le moins la distance totale de la tournée.
 
 \paragraph{}
 Puis, lorsqu'on ne peut plus ajouter de client à la tournée, on clôture la tournée et on en recréé une nouvelle. Lorsque tous les clients ont été traités 
 dans les tournées alors l'algorithme s'arrête.
 
 \paragraph{}
-On a donc maintenant une solution initiale fait à partir de l'insertion du meilleur client possible. 
+On a donc maintenant une solution initiale faite à partir de l'insertion du meilleur client possible. 
 
 \paragraph{}
 Après avoir vu dans sa généralité l'Insertion, nous allons nous pencher sur Savings.
@@ -140,7 +140,7 @@ Après avoir vu dans sa généralité l'Insertion, nous allons nous pencher sur 
 \subsection{L'heuristique Savings}
 
 \paragraph{}
-A l'inverse de l'heuristique précedente, Savings commence tout d'abord par créer un nombre de tournées égales au nombre de clients. C'est à dire que l'on à un 
+A l'inverse de l'heuristique précedente, Savings commence tout d'abord par créer un nombre de tournées égal au nombre de clients. C'est à dire que l'on a un 
 client pour une tournée.
 
 \paragraph{}
@@ -159,16 +159,16 @@ initiale prête à être améliorée.
 \subsection{L'amélioration par le 2-opt*}
 
 \paragraph{}
-L'algorithme 2-opt* est une heuristique permettant d'améliorer la solution par l'échange de fin de tournée. C'est à dire que l'on choisi deux arcs de deux 
-tournées différentes dont on échange les extrémités sortantesde ces arcs.
+L'algorithme 2-opt* est une heuristique permettant d'améliorer la solution par l'échange de fin de tournée. C'est à dire que l'on choisit deux arcs de deux 
+tournées différentes dont on échange les extrémités sortantes de ces arcs.
 
 \paragraph{}
 Cette amélioration permet aussi la supression d'une tournée. En effet, si les arcs à échanger correspondent à une fin de tournée et à un début de tournée 
 alors il y a concaténation de ces deux tournées afin d'en avoir plus qu'une au lieu de deux.
 
 \paragraph{}
-Evidemmennt, lors du test des arcs à échanger, certains cas ne sont pas à prendre en compte. En effet, si deux arcs sont en début de tournée, aucun changement 
-sera apportée à la solution, de même si nous avons deux arcs en fin de tournées. Donc, afin de ne pas perder de temps, on ne test pas ces types de 
+Evidemment, lors du test des arcs à échanger, certains cas ne sont pas à prendre en compte. En effet, si deux arcs sont en début de tournée, aucun changement ne 
+sera apporté à la solution, de même si nous avons deux arcs en fin de tournées. Donc, afin de ne pas perdre de temps, on ne teste pas ces types de 
 cas inutiles.
 
 \paragraph{}
@@ -177,14 +177,14 @@ Cet algortihme n'est pas le seul qui existe pour améliorer une solution de type
 \subsection{L'amélioration par le shift}
 
 \paragraph{}
-Cet heuristique d'insertion s'opère seulement au sein d'une tournée. Elle permet d'optimiser la solution uniquement sur les tournées elle-même.
+Cet heuristique d'insertion s'opère seulement au sein d'une tournée. Elle permet d'optimiser la solution uniquement sur les tournées elles-mêmes.
 
 \paragraph{}
-Pour améliorer, cet heuristique commence par prendre un sommet et regarde si ce sommet peut améliorer la solution s'il est placé à un autre endroit 
+Pour améliorer, cette heuristique commence par prendre un sommet et regarde si ce sommet peut améliorer la solution s'il est placé à un autre endroit 
 dans cette tournée. Puis, on refait ce test avec tous les autres sommets de la tournée. 
 
 \paragraph{}
-A la fin de différents tests, le sommet qui sera déplacé sera celui qui améliore le plus la solution. Ainsi de suite, on continu ces opérations 
+A la fin des différents tests, le sommet qui sera déplacé sera celui qui améliore le plus la solution. Ainsi de suite, on continue ces opérations 
 jusqu'à que l'on ne puisse plus améliorer la solution.
 
 \paragraph{}
@@ -198,17 +198,17 @@ Le multi-start est un algorithme permettant d'être le plus proche possible de l
 
 \paragraph{}
 Pour ce faire, il commence à initialiser une solution puis à effectuer une recherche locale dessus. Puis, il recommence l'opération autant de fois 
-que souhaité par le développeur afin de continuer à chercher d'autres solutions qui pourraient être meilleurs.
+que souhaité par le développeur afin de continuer à chercher d'autres solutions qui pourraient être meilleures.
 
 \paragraph{}
 L'initilisation se fait via les algorithmes permettant la création de la solution que nous avons vu avant. La recherche locale s'effectue avec du 2-opt* 
 et du shift alternés afin de descendre le plus bas possible dans l'optimum de la solution.
 
 \paragraph{}
-Le multi-start se termine en gardant la meilleur solution trouvée grâce à l'utilisation de tous les algorithmes présentés.
+Le multi-start se termine en gardant la meilleure solution trouvée grâce à l'utilisation de tous les algorithmes présentés.
 
 \paragraph{}
-Après avoir étudier dans l'aspects général des heuristiques utilisés, nous allons les étudier plus en détails grâce à leurs algorithmes.
+Après avoir étudié dans l'aspects général les heuristiques utilisées, nous allons les étudier plus en détails grâce à leurs algorithmes.
 
 \clearpage
 \section{Description des algorithmes}
@@ -227,7 +227,7 @@ Après avoir étudier dans l'aspects général des heuristiques utilisés, nous 
 08  \> \> \ \ \ \ \ \ \ \ \ \ \ \ Si le gain calculé est meilleur alors on garde ce client \\
 09  \> \> Fin si \\
 10  \> Fin pour \\
-11  \> Si un meilleur client a été trouvée \\
+11  \> Si un meilleur client a été trouvé \\
 12  \> \> Insérer le client à la fin de la tournée courante\\
 13  \> Sinon \\
 14  \> \> Mettre le booléen de création d'une tournée vide à vrai \\
@@ -283,20 +283,20 @@ de temps. Les tests effectués sont réalisés sur tous les clients qui seront �
 01  Pour chaque tournée possédent au moins deux clients\\
 02  \> Tant qu'on peut améliorer la tournée\\
 03  \> \> Pour chaque client de la tournée \\
-04  \> \> \ \ \ \ \ \ \ \ \ \ \ \ Calculer une meilleur position possible \\
-05  \> \> \ \ \ \ \ \ \ \ \ \ \ \ Si la position calculée est la meilleur\\
+04  \> \> \ \ \ \ \ \ \ \ \ \ \ \ Calculer une meilleure position possible \\
+05  \> \> \ \ \ \ \ \ \ \ \ \ \ \ Si la position calculée est la meilleure\\
 06  \> \> \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Conserver le client courant et la position calculée\\
 07  \> \> \ \ \ \ \ \ \ \ \ \ \ \ Fin si \\
 08  \> \> Fin pour \\
 09  \> \> Si il existe une amélioration \\
-10  \> \> \ \ \ \ \ \ \ \ \ \ \ \ Déplacer le client rectenu à la position retenue avant \\
+10  \> \> \ \ \ \ \ \ \ \ \ \ \ \ Déplacer le client retenu à la position retenue avant \\
 11  \> \> Fin si \\
 12  \> Fin tant que \\
 13  Fin pour \\
 \end{tabbing}
 
 \paragraph{}
-Le calcul de la meilleur position possible se fait via une boucle parcourant le reste de la tournée. Lors de ce parcours, on regarde si la position 
+Le calcul de la meilleure position possible se fait via une boucle parcourant le reste de la tournée. Lors de ce parcours, on regarde si la position 
 permet à la solution d'être améliorée.
 
 \subsection{Multi-start}
@@ -304,13 +304,13 @@ permet à la solution d'être améliorée.
 \begin{tabbing}
 \hspace{1cm} \= \hspace{1cm} \= \kill
 01  Pour un nombre d'itérations défini\\
-02  \> Construire une solution randomisé à l'aide d'une heuristique de construction\\
+02  \> Construire une solution randomisée à l'aide d'une heuristique de construction\\
 03  \> Effectuer une recherche locale \\
-04  \> Si c'est la meilleur solution \\
+04  \> Si c'est la meilleure solution \\
 05  \> \> On la conserve\\
 06  \> Fin si\\
 07  Fin pour\\
-08  Conserver et appliquer la meilleur solution trouvée.\\
+08  Conserver et appliquer la meilleure solution trouvée.\\
 \end{tabbing}
 
 \paragraph{}
@@ -318,13 +318,13 @@ La recherche locale se fait grâce à une succession de 2-opt* et de shift rép�
 
 
 \paragraph{}
-Nous avons vu les différents algorithmes par leurs fonctionnement et leurs implémentations. Nous allons donc maintenant effectuer une étude de performence sur 
+Nous avons vu les différents algorithmes par leurs fonctionnements et leurs implémentations. Nous allons donc maintenant effectuer une étude de performance sur 
 le programme que nous avons conçu.
 
 \clearpage
 \section{Etude de performances de l'algorithme multi-start}
 L'étude du programme se fera via la fonction multi-start car c'est cette fonction qui fait tournée le programme. Nous effectuerons l'étude grâce aux tableaux 
-forunis en annexe du sujet. Les valeurs rentrées dans le tableau ont réalisées pour 10 itérations du multi-start.\\\
+fournis en annexe du sujet. Les valeurs rentrées dans le tableau ont réalisées pour 10 itérations du multi-start.\\\
 
 \begin{tabular}{ |*{4}{c|} }
 \hline
@@ -367,9 +367,9 @@ forunis en annexe du sujet. Les valeurs rentrées dans le tableau ont réalisée
  \end{tabular}
 
 \paragraph{}
-Ce tableau nous fait tout d'abord remarquer que les temps de calculs sont extrêmement courts. Seulement, les meilleurs distances atteintes par notre 
+Ce tableau nous fait tout d'abord remarquer que les temps de calculs sont extrêmement courts. Seulement, les meilleures distances atteintes par notre 
 programme sont toujours au-dessus de celles proposées sur le site \textbf{http://www.sintef.no/Projectweb/TOP/VRPTW/Solomon-benchmark/100-customers/}.
-De plus, lors de l'exécution du programme, nous pouvons remarquer qu'un certain nombres d'instances font échouer le programme. 
+De plus, lors de l'exécution du programme, nous pouvons remarquer qu'un certain nombre d'instances font échouer le programme. 
 
 \paragraph{}
 Pour finir cette partie, les algorithmes que nous avons implémentés nous donne des résultats à peu près convenable pour des délais très courts sur 
@@ -379,14 +379,14 @@ les solutions compatibles à notre programme.
 \section{Conclusion}
 
 \paragraph{}
-Ce tp nous a permis d'élargir nos connaissances dans le domaine de la recherche opérationnelle. En effet, nous avons pu concevoir des algortihmes que nous 
+Ce TP nous a permis d'élargir nos connaissances dans le domaine de la recherche opérationnelle. En effet, nous avons pu concevoir des algortihmes que nous 
 connaissions seulement de nom. On a ainsi compris plus en détail à quoi servaient ces algorithmes.
 
 \paragraph{}
 De plus, par le biais des nombreuses heures que nous avons passées sur le programme, nous avons pu étendre nos connaissances dans la programmation objet en C++.
 
 \paragraph{}
-Nous avons donc pu concevoir un programme pouvant traiter les problèmes de VRPTW donnant des résultats, certes pas exceptionels, que l'on peut juger de convenables.
+Nous avons donc pu concevoir un programme pouvant traiter les problèmes de VRPTW donnant des résultats, certes pas exceptionels, mais que l'on peut juger de convenables.
 
 \paragraph{}
 Seulement, des problèmes subsistent dans le logiciel, et ce malgré les heures de débuggage que nous avons passées dessus. En effet, pour un 
